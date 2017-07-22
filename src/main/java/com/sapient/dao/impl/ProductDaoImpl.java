@@ -1,14 +1,14 @@
 package com.sapient.dao.impl;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
-
-import static org.springframework.data.mongodb.core.query.Query.query;
-import static org.springframework.data.mongodb.core.query.Criteria.*;
 
 import com.sapient.dao.IProductDao;
 import com.sapient.exception.ApplicationException;
@@ -43,15 +43,23 @@ public class ProductDaoImpl implements IProductDao {
 	}
 
 	/**
-	 * To get product based on the type specefied
+	 * To get product based on the filter type and filter value specified.
 	 * @param product
 	 */
-	public List<Product> findByType(String type) throws ApplicationException {
-		return mongo.find(query(where("type").is(type)), Product.class);
-	}
+	
+	public List<Product> filterProducts(String filterCriteria, String filterValue) throws ApplicationException {
+		if("category".equalsIgnoreCase(filterCriteria))
+			return (List<Product>) mongo.find(query(where("category").is(filterValue)), Product.class);
+
+		if("name".equalsIgnoreCase(filterCriteria)) {
+			return (List<Product>) mongo.find(query(where("name").is(filterValue)), Product.class);
+		}
+		return null;
+		
+	};
 
 	/**
-	 * 
+	 * To delete the product based on the Id.
 	 */
 	public Object deleteById(String id) throws ApplicationException {
 		return mongo.remove(query(where("id").is(id)), Product.class);

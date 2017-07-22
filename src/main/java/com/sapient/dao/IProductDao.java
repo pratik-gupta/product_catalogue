@@ -19,10 +19,10 @@ public interface IProductDao {
 	Object save(Product product) throws ApplicationException;
 
 	/**
-	 * To get product based on the type specefied.
+	 * To get product based on the type filter type and filter Value specified.
 	 * @param product
 	 */
-	List<Product> findByType(String type) throws ApplicationException;
+	List<Product> filterProducts(String filterCriteria, String filterValue) throws ApplicationException;
 
 	/**
 	 * To delete the product by Id.

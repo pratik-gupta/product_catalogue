@@ -1,10 +1,11 @@
 package com.sapient.vo;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Pojo class basically represent the Document in mong db.
+ * Pojo class represt the Product Documet in mongo database.
  * @author pratikgupta
  *
  */
@@ -13,12 +14,22 @@ public class Product {
 
 	@Indexed
 	private String id;
-	
+
+	@NotEmpty(message ="Product name can not be empty")
 	@Indexed(unique=true)
 	private String name;
 	
-	private String type;
+	@NotEmpty(message ="Product categotry can not be empty")
+	private String category;
 	
+	private String description;
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getId() {
 		return id;
 	}
@@ -31,14 +42,14 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getType() {
-		return type;
+	public String getCategory() {
+		return category;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", type=" + type + "]";
+		return "Product [id=" + id + ", name=" + name + ", type=" + category + "]";
 	}
 }
